@@ -1,61 +1,163 @@
-# Sampling_Assignment
-Predictive Analysis assignment 1 on sampling by Dr. Anjula Mehto
+# Probability Density Function Learning using Statistical Modeling and GANs
 
-Sampling Assignment – Credit Card Fraud Detection
+## Overview
+This repository contains two assignments focused on learning Probability Density Functions (PDFs) from transformed NO₂ concentration data using:
 
-Problem Statement:
-This assignment focuses on understanding how different sampling techniques affect the performance of machine learning models. Since the given dataset is imbalanced, sampling is required to improve learning and accuracy.
+1. Statistical PDF estimation
+2. Generative Adversarial Networks (GANs)
 
-Dataset:
-The dataset used is Creditcard_data.csv.
-Target column: Class
-0 → Normal transaction
-1 → Fraud transaction
+The assignments demonstrate both analytical and deep learning approaches for modeling probability distributions.
 
-Initially, the dataset had very few fraud cases, making it highly imbalanced.
-Data Balancing:
-To handle the imbalance, SMOTE was applied.
-This technique oversamples the minority class and helps in creating a balanced dataset with equal class distribution.
+---
 
-Sampling Techniques:
-After balancing the data, five samples were created using the sample size formula discussed in class.
-The following sampling techniques were applied:
-Sampling1 – Simple Random Sampling
-Sampling2 – Systematic Sampling
-Sampling3 – Stratified Sampling
-Sampling4 – Cluster Sampling
-Sampling5 – Convenience Sampling
+## Dataset
+- India Air Quality Dataset
+- Feature used: NO₂ concentration values
 
-Machine Learning Models:
-Five machine learning models were used:
-M1 – Logistic Regression
-M2 – Decision Tree
-M3 – KNN
-M4 – Naive Bayes
-M5 – Random Forest
-Data was split into 80% training and 20% testing.
+---
 
-Results:
-Model	S1	S2	S3	S4	S5
-M1	50.10	52.24	63.18	69.23	70.12
-M2	59.25	65.27	68.72	28.36	30.25
-M3	90.45	72.41	32.17	42.58	41.85
-M4	78.25	56.24	47.23	33.44	40.12
-M5	81.25	12.85	57.36	32.25	52.74
+# Assignment 1 — Statistical PDF Learning
 
-Analysis:
-The results show that different sampling techniques work better for different models.
-Sampling1 performs best for M3
-Sampling5 gives better accuracy for M1
-Model performance changes significantly with sampling method
-A comparison graph is included in the notebook for better understanding.
+## Objective
+To transform NO₂ concentration data using a roll-number-parameterized non-linear transformation and estimate the probability density function analytically.
 
-Conclusion
-This assignment shows that sampling techniques have a strong impact on model accuracy. There is no single best sampling method for all models, and choosing the right technique is important for better results.
+---
 
-Tools Used:
-Python
-Google Colab
-Pandas, NumPy
-Matplotlib
-Scikit-learn
+## Transformation Function
+
+The transformed variable is defined as:
+
+z = x + ar * sin(br * x)
+
+For Roll Number: `102303356`
+
+- r mod 7 = 1
+- r mod 5 = 1
+
+Therefore:
+
+- ar = 0.05
+- br = 0.6
+
+Final transformation:
+
+z = x + 0.05 * sin(0.6x)
+
+---
+
+## Estimated PDF
+
+The probability density function considered:
+
+p(z) = c * e^(-λ(z-μ)^2)
+
+Estimated Parameters:
+
+| Parameter | Value |
+|----------|-------|
+| μ | 41.82 |
+| λ | 0.0019 |
+| c | 0.0245 |
+
+---
+
+## Methodology
+- Applied non-linear transformation on NO₂ values
+- Computed transformed mean and variance
+- Estimated PDF parameters
+- Compared histogram with fitted distribution
+
+---
+
+# Assignment 2 — GAN Based PDF Learning
+
+## Objective
+To learn the probability density function directly from transformed data samples using a Generative Adversarial Network (GAN).
+
+---
+
+## Transformation Function
+
+For Roll Number: `102303356`
+
+- ar = 0.5
+- br = 0.6
+
+Final transformation:
+
+z = x + 0.5 * sin(0.6x)
+
+---
+
+## GAN Architecture
+
+### Generator
+- Input: Random noise N(0,1)
+- Dense Layer: 64 neurons + ReLU
+- Dense Layer: 128 neurons + ReLU
+- Output Layer: 1 neuron
+
+### Discriminator
+- Dense Layer: 128 neurons + LeakyReLU
+- Dense Layer: 64 neurons + LeakyReLU
+- Output Layer: Sigmoid activation
+
+---
+
+## Training Details
+
+| Parameter | Value |
+|-----------|-------|
+| Epochs | 3000 |
+| Batch Size | 64 |
+| Optimizer | Adam |
+| Learning Rate | 0.0002 |
+
+---
+
+## GAN Workflow
+- Train discriminator on real and generated samples
+- Train generator to fool discriminator
+- Generate synthetic transformed samples
+- Apply Kernel Density Estimation (KDE)
+- Compare generated distribution with real data
+
+---
+
+## Observations
+
+### Statistical PDF Learning
+- Bell-shaped distribution observed
+- Estimated PDF closely matched transformed data
+
+### GAN-Based Learning
+- GAN captured major distribution peaks
+- KDE closely matched real data distribution
+- Minor deviations observed in tail regions
+
+---
+
+## Technologies Used
+- Python
+- NumPy
+- Pandas
+- Matplotlib
+- SciPy
+- TensorFlow / Keras
+- Scikit-learn
+
+---
+
+## Conclusion
+This project demonstrates two different approaches for probability density function learning:
+
+1. Analytical/statistical estimation
+2. Deep learning based generative modeling using GANs
+
+Both methods successfully modeled the transformed NO₂ concentration distribution and highlighted the effectiveness of statistical as well as data-driven PDF learning techniques.
+
+---
+
+## Author
+**Niyati**  
+Roll Number: 102303356
